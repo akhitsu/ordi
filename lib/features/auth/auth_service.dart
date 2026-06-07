@@ -7,15 +7,15 @@ import '../../data/local/database_provider.dart';
 import '../../data/network/dio_provider.dart';
 import 'device_identity_service.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return DioAuthRepository(
+final authServiceProvider = Provider<AuthService>((ref) {
+  return DioAuthService(
     dio: ref.watch(dioProvider),
     database: ref.watch(databaseProvider),
     deviceIdentity: ref.watch(deviceIdentityServiceProvider),
   );
 });
 
-abstract class AuthRepository {
+abstract class AuthService {
   Future<AuthSession?> restoreSession();
 
   Future<AuthSession> login({required String email, required String password});
@@ -23,8 +23,8 @@ abstract class AuthRepository {
   Future<void> logout();
 }
 
-class DioAuthRepository implements AuthRepository {
-  DioAuthRepository({
+class DioAuthService implements AuthService {
+  DioAuthService({
     required this._dio,
     required this._database,
     required this._deviceIdentity,

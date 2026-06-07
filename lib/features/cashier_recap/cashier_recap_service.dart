@@ -10,15 +10,15 @@ import '../../data/network/dio_provider.dart';
 import '../auth/device_identity_service.dart';
 import 'cashier_recap_models.dart';
 
-final cashierRecapRepositoryProvider = Provider<CashierRecapRepository>((ref) {
-  return DioCashierRecapRepository(
+final cashierRecapServiceProvider = Provider<CashierRecapService>((ref) {
+  return DioCashierRecapService(
     dio: ref.watch(dioProvider),
     database: ref.watch(databaseProvider),
     deviceIdentity: ref.watch(deviceIdentityServiceProvider),
   );
 });
 
-abstract class CashierRecapRepository {
+abstract class CashierRecapService {
   Future<CashierRecapRecord?> getActiveRecap({bool refresh = false});
 
   Future<List<CashierRecapRecord>> getRecaps({
@@ -44,8 +44,8 @@ abstract class CashierRecapRepository {
   });
 }
 
-class DioCashierRecapRepository implements CashierRecapRepository {
-  DioCashierRecapRepository({
+class DioCashierRecapService implements CashierRecapService {
+  DioCashierRecapService({
     required this._dio,
     required this._database,
     required this._deviceIdentity,

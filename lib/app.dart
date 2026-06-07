@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/theme/app_theme.dart';
-import 'features/auth/splash_page.dart';
+import 'pages/auth/splash/splash_page.dart';
 
 class OrdiApp extends StatelessWidget {
   const OrdiApp({super.key});
