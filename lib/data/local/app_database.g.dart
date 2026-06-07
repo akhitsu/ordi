@@ -2468,6 +2468,17 @@ class $MenuItemsTable extends MenuItems
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _imageUrlMeta = const VerificationMeta(
+    'imageUrl',
+  );
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+    'image_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _priceMeta = const VerificationMeta('price');
   @override
   late final GeneratedColumn<int> price = GeneratedColumn<int>(
@@ -2524,6 +2535,7 @@ class $MenuItemsTable extends MenuItems
     name,
     description,
     sku,
+    imageUrl,
     price,
     isRetailReady,
     revision,
@@ -2598,6 +2610,12 @@ class $MenuItemsTable extends MenuItems
         sku.isAcceptableOrUnknown(data['sku']!, _skuMeta),
       );
     }
+    if (data.containsKey('image_url')) {
+      context.handle(
+        _imageUrlMeta,
+        imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta),
+      );
+    }
     if (data.containsKey('price')) {
       context.handle(
         _priceMeta,
@@ -2664,6 +2682,10 @@ class $MenuItemsTable extends MenuItems
         DriftSqlType.string,
         data['${effectivePrefix}sku'],
       ),
+      imageUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_url'],
+      ),
       price: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}price'],
@@ -2697,6 +2719,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
   final String name;
   final String? description;
   final String? sku;
+  final String? imageUrl;
   final int price;
   final bool isRetailReady;
   final int revision;
@@ -2709,6 +2732,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
     required this.name,
     this.description,
     this.sku,
+    this.imageUrl,
     required this.price,
     required this.isRetailReady,
     required this.revision,
@@ -2731,6 +2755,9 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
     }
     if (!nullToAbsent || sku != null) {
       map['sku'] = Variable<String>(sku);
+    }
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
     }
     map['price'] = Variable<int>(price);
     map['is_retail_ready'] = Variable<bool>(isRetailReady);
@@ -2756,6 +2783,9 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
           ? const Value.absent()
           : Value(description),
       sku: sku == null && nullToAbsent ? const Value.absent() : Value(sku),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
       price: Value(price),
       isRetailReady: Value(isRetailReady),
       revision: Value(revision),
@@ -2778,6 +2808,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String?>(json['description']),
       sku: serializer.fromJson<String?>(json['sku']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       price: serializer.fromJson<int>(json['price']),
       isRetailReady: serializer.fromJson<bool>(json['isRetailReady']),
       revision: serializer.fromJson<int>(json['revision']),
@@ -2795,6 +2826,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String?>(description),
       'sku': serializer.toJson<String?>(sku),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
       'price': serializer.toJson<int>(price),
       'isRetailReady': serializer.toJson<bool>(isRetailReady),
       'revision': serializer.toJson<int>(revision),
@@ -2810,6 +2842,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
     String? name,
     Value<String?> description = const Value.absent(),
     Value<String?> sku = const Value.absent(),
+    Value<String?> imageUrl = const Value.absent(),
     int? price,
     bool? isRetailReady,
     int? revision,
@@ -2822,6 +2855,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
     name: name ?? this.name,
     description: description.present ? description.value : this.description,
     sku: sku.present ? sku.value : this.sku,
+    imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
     price: price ?? this.price,
     isRetailReady: isRetailReady ?? this.isRetailReady,
     revision: revision ?? this.revision,
@@ -2844,6 +2878,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
           ? data.description.value
           : this.description,
       sku: data.sku.present ? data.sku.value : this.sku,
+      imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
       price: data.price.present ? data.price.value : this.price,
       isRetailReady: data.isRetailReady.present
           ? data.isRetailReady.value
@@ -2863,6 +2898,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('sku: $sku, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('price: $price, ')
           ..write('isRetailReady: $isRetailReady, ')
           ..write('revision: $revision, ')
@@ -2880,6 +2916,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
     name,
     description,
     sku,
+    imageUrl,
     price,
     isRetailReady,
     revision,
@@ -2896,6 +2933,7 @@ class MenuItem extends DataClass implements Insertable<MenuItem> {
           other.name == this.name &&
           other.description == this.description &&
           other.sku == this.sku &&
+          other.imageUrl == this.imageUrl &&
           other.price == this.price &&
           other.isRetailReady == this.isRetailReady &&
           other.revision == this.revision &&
@@ -2910,6 +2948,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
   final Value<String> name;
   final Value<String?> description;
   final Value<String?> sku;
+  final Value<String?> imageUrl;
   final Value<int> price;
   final Value<bool> isRetailReady;
   final Value<int> revision;
@@ -2923,6 +2962,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.sku = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     this.price = const Value.absent(),
     this.isRetailReady = const Value.absent(),
     this.revision = const Value.absent(),
@@ -2937,6 +2977,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
     required String name,
     this.description = const Value.absent(),
     this.sku = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     required int price,
     this.isRetailReady = const Value.absent(),
     this.revision = const Value.absent(),
@@ -2954,6 +2995,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
     Expression<String>? name,
     Expression<String>? description,
     Expression<String>? sku,
+    Expression<String>? imageUrl,
     Expression<int>? price,
     Expression<bool>? isRetailReady,
     Expression<int>? revision,
@@ -2968,6 +3010,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
       if (name != null) 'name': name,
       if (description != null) 'description': description,
       if (sku != null) 'sku': sku,
+      if (imageUrl != null) 'image_url': imageUrl,
       if (price != null) 'price': price,
       if (isRetailReady != null) 'is_retail_ready': isRetailReady,
       if (revision != null) 'revision': revision,
@@ -2984,6 +3027,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
     Value<String>? name,
     Value<String?>? description,
     Value<String?>? sku,
+    Value<String?>? imageUrl,
     Value<int>? price,
     Value<bool>? isRetailReady,
     Value<int>? revision,
@@ -2998,6 +3042,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
       name: name ?? this.name,
       description: description ?? this.description,
       sku: sku ?? this.sku,
+      imageUrl: imageUrl ?? this.imageUrl,
       price: price ?? this.price,
       isRetailReady: isRetailReady ?? this.isRetailReady,
       revision: revision ?? this.revision,
@@ -3030,6 +3075,9 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
     if (sku.present) {
       map['sku'] = Variable<String>(sku.value);
     }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
     if (price.present) {
       map['price'] = Variable<int>(price.value);
     }
@@ -3058,6 +3106,7 @@ class MenuItemsCompanion extends UpdateCompanion<MenuItem> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('sku: $sku, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('price: $price, ')
           ..write('isRetailReady: $isRetailReady, ')
           ..write('revision: $revision, ')
@@ -3534,6 +3583,477 @@ class PaymentMethodsCompanion extends UpdateCompanion<PaymentMethod> {
   }
 }
 
+class $DiningTablesTable extends DiningTables
+    with TableInfo<$DiningTablesTable, DiningTable> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DiningTablesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+    'uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _businessUuidMeta = const VerificationMeta(
+    'businessUuid',
+  );
+  @override
+  late final GeneratedColumn<String> businessUuid = GeneratedColumn<String>(
+    'business_uuid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _outletUuidMeta = const VerificationMeta(
+    'outletUuid',
+  );
+  @override
+  late final GeneratedColumn<String> outletUuid = GeneratedColumn<String>(
+    'outlet_uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+    'number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _revisionMeta = const VerificationMeta(
+    'revision',
+  );
+  @override
+  late final GeneratedColumn<int> revision = GeneratedColumn<int>(
+    'revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    uuid,
+    businessUuid,
+    outletUuid,
+    name,
+    number,
+    revision,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dining_tables';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DiningTable> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('uuid')) {
+      context.handle(
+        _uuidMeta,
+        uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('business_uuid')) {
+      context.handle(
+        _businessUuidMeta,
+        businessUuid.isAcceptableOrUnknown(
+          data['business_uuid']!,
+          _businessUuidMeta,
+        ),
+      );
+    }
+    if (data.containsKey('outlet_uuid')) {
+      context.handle(
+        _outletUuidMeta,
+        outletUuid.isAcceptableOrUnknown(data['outlet_uuid']!, _outletUuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_outletUuidMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(
+        _numberMeta,
+        number.isAcceptableOrUnknown(data['number']!, _numberMeta),
+      );
+    }
+    if (data.containsKey('revision')) {
+      context.handle(
+        _revisionMeta,
+        revision.isAcceptableOrUnknown(data['revision']!, _revisionMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {uuid};
+  @override
+  DiningTable map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DiningTable(
+      uuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uuid'],
+      )!,
+      businessUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}business_uuid'],
+      ),
+      outletUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}outlet_uuid'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      number: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}number'],
+      ),
+      revision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}revision'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+    );
+  }
+
+  @override
+  $DiningTablesTable createAlias(String alias) {
+    return $DiningTablesTable(attachedDatabase, alias);
+  }
+}
+
+class DiningTable extends DataClass implements Insertable<DiningTable> {
+  final String uuid;
+  final String? businessUuid;
+  final String outletUuid;
+  final String name;
+  final String? number;
+  final int revision;
+  final DateTime? updatedAt;
+  const DiningTable({
+    required this.uuid,
+    this.businessUuid,
+    required this.outletUuid,
+    required this.name,
+    this.number,
+    required this.revision,
+    this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['uuid'] = Variable<String>(uuid);
+    if (!nullToAbsent || businessUuid != null) {
+      map['business_uuid'] = Variable<String>(businessUuid);
+    }
+    map['outlet_uuid'] = Variable<String>(outletUuid);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || number != null) {
+      map['number'] = Variable<String>(number);
+    }
+    map['revision'] = Variable<int>(revision);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  DiningTablesCompanion toCompanion(bool nullToAbsent) {
+    return DiningTablesCompanion(
+      uuid: Value(uuid),
+      businessUuid: businessUuid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(businessUuid),
+      outletUuid: Value(outletUuid),
+      name: Value(name),
+      number: number == null && nullToAbsent
+          ? const Value.absent()
+          : Value(number),
+      revision: Value(revision),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory DiningTable.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DiningTable(
+      uuid: serializer.fromJson<String>(json['uuid']),
+      businessUuid: serializer.fromJson<String?>(json['businessUuid']),
+      outletUuid: serializer.fromJson<String>(json['outletUuid']),
+      name: serializer.fromJson<String>(json['name']),
+      number: serializer.fromJson<String?>(json['number']),
+      revision: serializer.fromJson<int>(json['revision']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'uuid': serializer.toJson<String>(uuid),
+      'businessUuid': serializer.toJson<String?>(businessUuid),
+      'outletUuid': serializer.toJson<String>(outletUuid),
+      'name': serializer.toJson<String>(name),
+      'number': serializer.toJson<String?>(number),
+      'revision': serializer.toJson<int>(revision),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  DiningTable copyWith({
+    String? uuid,
+    Value<String?> businessUuid = const Value.absent(),
+    String? outletUuid,
+    String? name,
+    Value<String?> number = const Value.absent(),
+    int? revision,
+    Value<DateTime?> updatedAt = const Value.absent(),
+  }) => DiningTable(
+    uuid: uuid ?? this.uuid,
+    businessUuid: businessUuid.present ? businessUuid.value : this.businessUuid,
+    outletUuid: outletUuid ?? this.outletUuid,
+    name: name ?? this.name,
+    number: number.present ? number.value : this.number,
+    revision: revision ?? this.revision,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+  );
+  DiningTable copyWithCompanion(DiningTablesCompanion data) {
+    return DiningTable(
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      businessUuid: data.businessUuid.present
+          ? data.businessUuid.value
+          : this.businessUuid,
+      outletUuid: data.outletUuid.present
+          ? data.outletUuid.value
+          : this.outletUuid,
+      name: data.name.present ? data.name.value : this.name,
+      number: data.number.present ? data.number.value : this.number,
+      revision: data.revision.present ? data.revision.value : this.revision,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiningTable(')
+          ..write('uuid: $uuid, ')
+          ..write('businessUuid: $businessUuid, ')
+          ..write('outletUuid: $outletUuid, ')
+          ..write('name: $name, ')
+          ..write('number: $number, ')
+          ..write('revision: $revision, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    uuid,
+    businessUuid,
+    outletUuid,
+    name,
+    number,
+    revision,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DiningTable &&
+          other.uuid == this.uuid &&
+          other.businessUuid == this.businessUuid &&
+          other.outletUuid == this.outletUuid &&
+          other.name == this.name &&
+          other.number == this.number &&
+          other.revision == this.revision &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DiningTablesCompanion extends UpdateCompanion<DiningTable> {
+  final Value<String> uuid;
+  final Value<String?> businessUuid;
+  final Value<String> outletUuid;
+  final Value<String> name;
+  final Value<String?> number;
+  final Value<int> revision;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rowid;
+  const DiningTablesCompanion({
+    this.uuid = const Value.absent(),
+    this.businessUuid = const Value.absent(),
+    this.outletUuid = const Value.absent(),
+    this.name = const Value.absent(),
+    this.number = const Value.absent(),
+    this.revision = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DiningTablesCompanion.insert({
+    required String uuid,
+    this.businessUuid = const Value.absent(),
+    required String outletUuid,
+    required String name,
+    this.number = const Value.absent(),
+    this.revision = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : uuid = Value(uuid),
+       outletUuid = Value(outletUuid),
+       name = Value(name);
+  static Insertable<DiningTable> custom({
+    Expression<String>? uuid,
+    Expression<String>? businessUuid,
+    Expression<String>? outletUuid,
+    Expression<String>? name,
+    Expression<String>? number,
+    Expression<int>? revision,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (uuid != null) 'uuid': uuid,
+      if (businessUuid != null) 'business_uuid': businessUuid,
+      if (outletUuid != null) 'outlet_uuid': outletUuid,
+      if (name != null) 'name': name,
+      if (number != null) 'number': number,
+      if (revision != null) 'revision': revision,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DiningTablesCompanion copyWith({
+    Value<String>? uuid,
+    Value<String?>? businessUuid,
+    Value<String>? outletUuid,
+    Value<String>? name,
+    Value<String?>? number,
+    Value<int>? revision,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return DiningTablesCompanion(
+      uuid: uuid ?? this.uuid,
+      businessUuid: businessUuid ?? this.businessUuid,
+      outletUuid: outletUuid ?? this.outletUuid,
+      name: name ?? this.name,
+      number: number ?? this.number,
+      revision: revision ?? this.revision,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (businessUuid.present) {
+      map['business_uuid'] = Variable<String>(businessUuid.value);
+    }
+    if (outletUuid.present) {
+      map['outlet_uuid'] = Variable<String>(outletUuid.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (revision.present) {
+      map['revision'] = Variable<int>(revision.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiningTablesCompanion(')
+          ..write('uuid: $uuid, ')
+          ..write('businessUuid: $businessUuid, ')
+          ..write('outletUuid: $outletUuid, ')
+          ..write('name: $name, ')
+          ..write('number: $number, ')
+          ..write('revision: $revision, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $SalesTable extends Sales with TableInfo<$SalesTable, Sale> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -3581,6 +4101,29 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, Sale> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _transactionTypeMeta = const VerificationMeta(
+    'transactionType',
+  );
+  @override
+  late final GeneratedColumn<String> transactionType = GeneratedColumn<String>(
+    'transaction_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('take_away'),
+  );
+  static const VerificationMeta _diningTableUuidMeta = const VerificationMeta(
+    'diningTableUuid',
+  );
+  @override
+  late final GeneratedColumn<String> diningTableUuid = GeneratedColumn<String>(
+    'dining_table_uuid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _deviceUuidMeta = const VerificationMeta(
     'deviceUuid',
@@ -3752,6 +4295,8 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, Sale> {
     businessUuid,
     checkoutGroupUuid,
     outletUuid,
+    transactionType,
+    diningTableUuid,
     deviceUuid,
     number,
     status,
@@ -3813,6 +4358,24 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, Sale> {
       );
     } else if (isInserting) {
       context.missing(_outletUuidMeta);
+    }
+    if (data.containsKey('transaction_type')) {
+      context.handle(
+        _transactionTypeMeta,
+        transactionType.isAcceptableOrUnknown(
+          data['transaction_type']!,
+          _transactionTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('dining_table_uuid')) {
+      context.handle(
+        _diningTableUuidMeta,
+        diningTableUuid.isAcceptableOrUnknown(
+          data['dining_table_uuid']!,
+          _diningTableUuidMeta,
+        ),
+      );
     }
     if (data.containsKey('device_uuid')) {
       context.handle(
@@ -3952,6 +4515,14 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, Sale> {
         DriftSqlType.string,
         data['${effectivePrefix}outlet_uuid'],
       )!,
+      transactionType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}transaction_type'],
+      )!,
+      diningTableUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}dining_table_uuid'],
+      ),
       deviceUuid: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}device_uuid'],
@@ -4026,6 +4597,8 @@ class Sale extends DataClass implements Insertable<Sale> {
   final String? businessUuid;
   final String? checkoutGroupUuid;
   final String outletUuid;
+  final String transactionType;
+  final String? diningTableUuid;
   final String deviceUuid;
   final String? number;
   final String status;
@@ -4046,6 +4619,8 @@ class Sale extends DataClass implements Insertable<Sale> {
     this.businessUuid,
     this.checkoutGroupUuid,
     required this.outletUuid,
+    required this.transactionType,
+    this.diningTableUuid,
     required this.deviceUuid,
     this.number,
     required this.status,
@@ -4073,6 +4648,10 @@ class Sale extends DataClass implements Insertable<Sale> {
       map['checkout_group_uuid'] = Variable<String>(checkoutGroupUuid);
     }
     map['outlet_uuid'] = Variable<String>(outletUuid);
+    map['transaction_type'] = Variable<String>(transactionType);
+    if (!nullToAbsent || diningTableUuid != null) {
+      map['dining_table_uuid'] = Variable<String>(diningTableUuid);
+    }
     map['device_uuid'] = Variable<String>(deviceUuid);
     if (!nullToAbsent || number != null) {
       map['number'] = Variable<String>(number);
@@ -4107,6 +4686,10 @@ class Sale extends DataClass implements Insertable<Sale> {
           ? const Value.absent()
           : Value(checkoutGroupUuid),
       outletUuid: Value(outletUuid),
+      transactionType: Value(transactionType),
+      diningTableUuid: diningTableUuid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(diningTableUuid),
       deviceUuid: Value(deviceUuid),
       number: number == null && nullToAbsent
           ? const Value.absent()
@@ -4143,6 +4726,8 @@ class Sale extends DataClass implements Insertable<Sale> {
         json['checkoutGroupUuid'],
       ),
       outletUuid: serializer.fromJson<String>(json['outletUuid']),
+      transactionType: serializer.fromJson<String>(json['transactionType']),
+      diningTableUuid: serializer.fromJson<String?>(json['diningTableUuid']),
       deviceUuid: serializer.fromJson<String>(json['deviceUuid']),
       number: serializer.fromJson<String?>(json['number']),
       status: serializer.fromJson<String>(json['status']),
@@ -4168,6 +4753,8 @@ class Sale extends DataClass implements Insertable<Sale> {
       'businessUuid': serializer.toJson<String?>(businessUuid),
       'checkoutGroupUuid': serializer.toJson<String?>(checkoutGroupUuid),
       'outletUuid': serializer.toJson<String>(outletUuid),
+      'transactionType': serializer.toJson<String>(transactionType),
+      'diningTableUuid': serializer.toJson<String?>(diningTableUuid),
       'deviceUuid': serializer.toJson<String>(deviceUuid),
       'number': serializer.toJson<String?>(number),
       'status': serializer.toJson<String>(status),
@@ -4191,6 +4778,8 @@ class Sale extends DataClass implements Insertable<Sale> {
     Value<String?> businessUuid = const Value.absent(),
     Value<String?> checkoutGroupUuid = const Value.absent(),
     String? outletUuid,
+    String? transactionType,
+    Value<String?> diningTableUuid = const Value.absent(),
     String? deviceUuid,
     Value<String?> number = const Value.absent(),
     String? status,
@@ -4213,6 +4802,10 @@ class Sale extends DataClass implements Insertable<Sale> {
         ? checkoutGroupUuid.value
         : this.checkoutGroupUuid,
     outletUuid: outletUuid ?? this.outletUuid,
+    transactionType: transactionType ?? this.transactionType,
+    diningTableUuid: diningTableUuid.present
+        ? diningTableUuid.value
+        : this.diningTableUuid,
     deviceUuid: deviceUuid ?? this.deviceUuid,
     number: number.present ? number.value : this.number,
     status: status ?? this.status,
@@ -4241,6 +4834,12 @@ class Sale extends DataClass implements Insertable<Sale> {
       outletUuid: data.outletUuid.present
           ? data.outletUuid.value
           : this.outletUuid,
+      transactionType: data.transactionType.present
+          ? data.transactionType.value
+          : this.transactionType,
+      diningTableUuid: data.diningTableUuid.present
+          ? data.diningTableUuid.value
+          : this.diningTableUuid,
       deviceUuid: data.deviceUuid.present
           ? data.deviceUuid.value
           : this.deviceUuid,
@@ -4280,6 +4879,8 @@ class Sale extends DataClass implements Insertable<Sale> {
           ..write('businessUuid: $businessUuid, ')
           ..write('checkoutGroupUuid: $checkoutGroupUuid, ')
           ..write('outletUuid: $outletUuid, ')
+          ..write('transactionType: $transactionType, ')
+          ..write('diningTableUuid: $diningTableUuid, ')
           ..write('deviceUuid: $deviceUuid, ')
           ..write('number: $number, ')
           ..write('status: $status, ')
@@ -4300,11 +4901,13 @@ class Sale extends DataClass implements Insertable<Sale> {
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     uuid,
     businessUuid,
     checkoutGroupUuid,
     outletUuid,
+    transactionType,
+    diningTableUuid,
     deviceUuid,
     number,
     status,
@@ -4320,7 +4923,7 @@ class Sale extends DataClass implements Insertable<Sale> {
     receivedAt,
     createdAt,
     updatedAt,
-  );
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4329,6 +4932,8 @@ class Sale extends DataClass implements Insertable<Sale> {
           other.businessUuid == this.businessUuid &&
           other.checkoutGroupUuid == this.checkoutGroupUuid &&
           other.outletUuid == this.outletUuid &&
+          other.transactionType == this.transactionType &&
+          other.diningTableUuid == this.diningTableUuid &&
           other.deviceUuid == this.deviceUuid &&
           other.number == this.number &&
           other.status == this.status &&
@@ -4351,6 +4956,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
   final Value<String?> businessUuid;
   final Value<String?> checkoutGroupUuid;
   final Value<String> outletUuid;
+  final Value<String> transactionType;
+  final Value<String?> diningTableUuid;
   final Value<String> deviceUuid;
   final Value<String?> number;
   final Value<String> status;
@@ -4372,6 +4979,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
     this.businessUuid = const Value.absent(),
     this.checkoutGroupUuid = const Value.absent(),
     this.outletUuid = const Value.absent(),
+    this.transactionType = const Value.absent(),
+    this.diningTableUuid = const Value.absent(),
     this.deviceUuid = const Value.absent(),
     this.number = const Value.absent(),
     this.status = const Value.absent(),
@@ -4394,6 +5003,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
     this.businessUuid = const Value.absent(),
     this.checkoutGroupUuid = const Value.absent(),
     required String outletUuid,
+    this.transactionType = const Value.absent(),
+    this.diningTableUuid = const Value.absent(),
     required String deviceUuid,
     this.number = const Value.absent(),
     this.status = const Value.absent(),
@@ -4424,6 +5035,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
     Expression<String>? businessUuid,
     Expression<String>? checkoutGroupUuid,
     Expression<String>? outletUuid,
+    Expression<String>? transactionType,
+    Expression<String>? diningTableUuid,
     Expression<String>? deviceUuid,
     Expression<String>? number,
     Expression<String>? status,
@@ -4446,6 +5059,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
       if (businessUuid != null) 'business_uuid': businessUuid,
       if (checkoutGroupUuid != null) 'checkout_group_uuid': checkoutGroupUuid,
       if (outletUuid != null) 'outlet_uuid': outletUuid,
+      if (transactionType != null) 'transaction_type': transactionType,
+      if (diningTableUuid != null) 'dining_table_uuid': diningTableUuid,
       if (deviceUuid != null) 'device_uuid': deviceUuid,
       if (number != null) 'number': number,
       if (status != null) 'status': status,
@@ -4470,6 +5085,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
     Value<String?>? businessUuid,
     Value<String?>? checkoutGroupUuid,
     Value<String>? outletUuid,
+    Value<String>? transactionType,
+    Value<String?>? diningTableUuid,
     Value<String>? deviceUuid,
     Value<String?>? number,
     Value<String>? status,
@@ -4492,6 +5109,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
       businessUuid: businessUuid ?? this.businessUuid,
       checkoutGroupUuid: checkoutGroupUuid ?? this.checkoutGroupUuid,
       outletUuid: outletUuid ?? this.outletUuid,
+      transactionType: transactionType ?? this.transactionType,
+      diningTableUuid: diningTableUuid ?? this.diningTableUuid,
       deviceUuid: deviceUuid ?? this.deviceUuid,
       number: number ?? this.number,
       status: status ?? this.status,
@@ -4525,6 +5144,12 @@ class SalesCompanion extends UpdateCompanion<Sale> {
     }
     if (outletUuid.present) {
       map['outlet_uuid'] = Variable<String>(outletUuid.value);
+    }
+    if (transactionType.present) {
+      map['transaction_type'] = Variable<String>(transactionType.value);
+    }
+    if (diningTableUuid.present) {
+      map['dining_table_uuid'] = Variable<String>(diningTableUuid.value);
     }
     if (deviceUuid.present) {
       map['device_uuid'] = Variable<String>(deviceUuid.value);
@@ -4584,6 +5209,8 @@ class SalesCompanion extends UpdateCompanion<Sale> {
           ..write('businessUuid: $businessUuid, ')
           ..write('checkoutGroupUuid: $checkoutGroupUuid, ')
           ..write('outletUuid: $outletUuid, ')
+          ..write('transactionType: $transactionType, ')
+          ..write('diningTableUuid: $diningTableUuid, ')
           ..write('deviceUuid: $deviceUuid, ')
           ..write('number: $number, ')
           ..write('status: $status, ')
@@ -5747,6 +6374,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MenuCategoriesTable menuCategories = $MenuCategoriesTable(this);
   late final $MenuItemsTable menuItems = $MenuItemsTable(this);
   late final $PaymentMethodsTable paymentMethods = $PaymentMethodsTable(this);
+  late final $DiningTablesTable diningTables = $DiningTablesTable(this);
   late final $SalesTable sales = $SalesTable(this);
   late final $SaleItemsTable saleItems = $SaleItemsTable(this);
   late final $SyncQueueEntriesTable syncQueueEntries = $SyncQueueEntriesTable(
@@ -5765,6 +6393,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     menuCategories,
     menuItems,
     paymentMethods,
+    diningTables,
     sales,
     saleItems,
     syncQueueEntries,
@@ -7063,6 +7692,7 @@ typedef $$MenuItemsTableCreateCompanionBuilder =
       required String name,
       Value<String?> description,
       Value<String?> sku,
+      Value<String?> imageUrl,
       required int price,
       Value<bool> isRetailReady,
       Value<int> revision,
@@ -7078,6 +7708,7 @@ typedef $$MenuItemsTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String?> description,
       Value<String?> sku,
+      Value<String?> imageUrl,
       Value<int> price,
       Value<bool> isRetailReady,
       Value<int> revision,
@@ -7126,6 +7757,11 @@ class $$MenuItemsTableFilterComposer
 
   ColumnFilters<String> get sku => $composableBuilder(
     column: $table.sku,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -7194,6 +7830,11 @@ class $$MenuItemsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get price => $composableBuilder(
     column: $table.price,
     builder: (column) => ColumnOrderings(column),
@@ -7253,6 +7894,9 @@ class $$MenuItemsTableAnnotationComposer
   GeneratedColumn<String> get sku =>
       $composableBuilder(column: $table.sku, builder: (column) => column);
 
+  GeneratedColumn<String> get imageUrl =>
+      $composableBuilder(column: $table.imageUrl, builder: (column) => column);
+
   GeneratedColumn<int> get price =>
       $composableBuilder(column: $table.price, builder: (column) => column);
 
@@ -7303,6 +7947,7 @@ class $$MenuItemsTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String?> description = const Value.absent(),
                 Value<String?> sku = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
                 Value<int> price = const Value.absent(),
                 Value<bool> isRetailReady = const Value.absent(),
                 Value<int> revision = const Value.absent(),
@@ -7316,6 +7961,7 @@ class $$MenuItemsTableTableManager
                 name: name,
                 description: description,
                 sku: sku,
+                imageUrl: imageUrl,
                 price: price,
                 isRetailReady: isRetailReady,
                 revision: revision,
@@ -7331,6 +7977,7 @@ class $$MenuItemsTableTableManager
                 required String name,
                 Value<String?> description = const Value.absent(),
                 Value<String?> sku = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
                 required int price,
                 Value<bool> isRetailReady = const Value.absent(),
                 Value<int> revision = const Value.absent(),
@@ -7344,6 +7991,7 @@ class $$MenuItemsTableTableManager
                 name: name,
                 description: description,
                 sku: sku,
+                imageUrl: imageUrl,
                 price: price,
                 isRetailReady: isRetailReady,
                 revision: revision,
@@ -7614,12 +8262,256 @@ typedef $$PaymentMethodsTableProcessedTableManager =
       PaymentMethod,
       PrefetchHooks Function()
     >;
+typedef $$DiningTablesTableCreateCompanionBuilder =
+    DiningTablesCompanion Function({
+      required String uuid,
+      Value<String?> businessUuid,
+      required String outletUuid,
+      required String name,
+      Value<String?> number,
+      Value<int> revision,
+      Value<DateTime?> updatedAt,
+      Value<int> rowid,
+    });
+typedef $$DiningTablesTableUpdateCompanionBuilder =
+    DiningTablesCompanion Function({
+      Value<String> uuid,
+      Value<String?> businessUuid,
+      Value<String> outletUuid,
+      Value<String> name,
+      Value<String?> number,
+      Value<int> revision,
+      Value<DateTime?> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$DiningTablesTableFilterComposer
+    extends Composer<_$AppDatabase, $DiningTablesTable> {
+  $$DiningTablesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get businessUuid => $composableBuilder(
+    column: $table.businessUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get outletUuid => $composableBuilder(
+    column: $table.outletUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get number => $composableBuilder(
+    column: $table.number,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get revision => $composableBuilder(
+    column: $table.revision,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DiningTablesTableOrderingComposer
+    extends Composer<_$AppDatabase, $DiningTablesTable> {
+  $$DiningTablesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get businessUuid => $composableBuilder(
+    column: $table.businessUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get outletUuid => $composableBuilder(
+    column: $table.outletUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get number => $composableBuilder(
+    column: $table.number,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get revision => $composableBuilder(
+    column: $table.revision,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DiningTablesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DiningTablesTable> {
+  $$DiningTablesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<String> get businessUuid => $composableBuilder(
+    column: $table.businessUuid,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get outletUuid => $composableBuilder(
+    column: $table.outletUuid,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get number =>
+      $composableBuilder(column: $table.number, builder: (column) => column);
+
+  GeneratedColumn<int> get revision =>
+      $composableBuilder(column: $table.revision, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$DiningTablesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiningTablesTable,
+          DiningTable,
+          $$DiningTablesTableFilterComposer,
+          $$DiningTablesTableOrderingComposer,
+          $$DiningTablesTableAnnotationComposer,
+          $$DiningTablesTableCreateCompanionBuilder,
+          $$DiningTablesTableUpdateCompanionBuilder,
+          (
+            DiningTable,
+            BaseReferences<_$AppDatabase, $DiningTablesTable, DiningTable>,
+          ),
+          DiningTable,
+          PrefetchHooks Function()
+        > {
+  $$DiningTablesTableTableManager(_$AppDatabase db, $DiningTablesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DiningTablesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DiningTablesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DiningTablesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> uuid = const Value.absent(),
+                Value<String?> businessUuid = const Value.absent(),
+                Value<String> outletUuid = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> number = const Value.absent(),
+                Value<int> revision = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DiningTablesCompanion(
+                uuid: uuid,
+                businessUuid: businessUuid,
+                outletUuid: outletUuid,
+                name: name,
+                number: number,
+                revision: revision,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String uuid,
+                Value<String?> businessUuid = const Value.absent(),
+                required String outletUuid,
+                required String name,
+                Value<String?> number = const Value.absent(),
+                Value<int> revision = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DiningTablesCompanion.insert(
+                uuid: uuid,
+                businessUuid: businessUuid,
+                outletUuid: outletUuid,
+                name: name,
+                number: number,
+                revision: revision,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DiningTablesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiningTablesTable,
+      DiningTable,
+      $$DiningTablesTableFilterComposer,
+      $$DiningTablesTableOrderingComposer,
+      $$DiningTablesTableAnnotationComposer,
+      $$DiningTablesTableCreateCompanionBuilder,
+      $$DiningTablesTableUpdateCompanionBuilder,
+      (
+        DiningTable,
+        BaseReferences<_$AppDatabase, $DiningTablesTable, DiningTable>,
+      ),
+      DiningTable,
+      PrefetchHooks Function()
+    >;
 typedef $$SalesTableCreateCompanionBuilder =
     SalesCompanion Function({
       required String uuid,
       Value<String?> businessUuid,
       Value<String?> checkoutGroupUuid,
       required String outletUuid,
+      Value<String> transactionType,
+      Value<String?> diningTableUuid,
       required String deviceUuid,
       Value<String?> number,
       Value<String> status,
@@ -7643,6 +8535,8 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<String?> businessUuid,
       Value<String?> checkoutGroupUuid,
       Value<String> outletUuid,
+      Value<String> transactionType,
+      Value<String?> diningTableUuid,
       Value<String> deviceUuid,
       Value<String?> number,
       Value<String> status,
@@ -7686,6 +8580,16 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get outletUuid => $composableBuilder(
     column: $table.outletUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get transactionType => $composableBuilder(
+    column: $table.transactionType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get diningTableUuid => $composableBuilder(
+    column: $table.diningTableUuid,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -7794,6 +8698,16 @@ class $$SalesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get transactionType => $composableBuilder(
+    column: $table.transactionType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get diningTableUuid => $composableBuilder(
+    column: $table.diningTableUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get deviceUuid => $composableBuilder(
     column: $table.deviceUuid,
     builder: (column) => ColumnOrderings(column),
@@ -7897,6 +8811,16 @@ class $$SalesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get transactionType => $composableBuilder(
+    column: $table.transactionType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get diningTableUuid => $composableBuilder(
+    column: $table.diningTableUuid,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get deviceUuid => $composableBuilder(
     column: $table.deviceUuid,
     builder: (column) => column,
@@ -7989,6 +8913,8 @@ class $$SalesTableTableManager
                 Value<String?> businessUuid = const Value.absent(),
                 Value<String?> checkoutGroupUuid = const Value.absent(),
                 Value<String> outletUuid = const Value.absent(),
+                Value<String> transactionType = const Value.absent(),
+                Value<String?> diningTableUuid = const Value.absent(),
                 Value<String> deviceUuid = const Value.absent(),
                 Value<String?> number = const Value.absent(),
                 Value<String> status = const Value.absent(),
@@ -8010,6 +8936,8 @@ class $$SalesTableTableManager
                 businessUuid: businessUuid,
                 checkoutGroupUuid: checkoutGroupUuid,
                 outletUuid: outletUuid,
+                transactionType: transactionType,
+                diningTableUuid: diningTableUuid,
                 deviceUuid: deviceUuid,
                 number: number,
                 status: status,
@@ -8033,6 +8961,8 @@ class $$SalesTableTableManager
                 Value<String?> businessUuid = const Value.absent(),
                 Value<String?> checkoutGroupUuid = const Value.absent(),
                 required String outletUuid,
+                Value<String> transactionType = const Value.absent(),
+                Value<String?> diningTableUuid = const Value.absent(),
                 required String deviceUuid,
                 Value<String?> number = const Value.absent(),
                 Value<String> status = const Value.absent(),
@@ -8054,6 +8984,8 @@ class $$SalesTableTableManager
                 businessUuid: businessUuid,
                 checkoutGroupUuid: checkoutGroupUuid,
                 outletUuid: outletUuid,
+                transactionType: transactionType,
+                diningTableUuid: diningTableUuid,
                 deviceUuid: deviceUuid,
                 number: number,
                 status: status,
@@ -8673,6 +9605,8 @@ class $AppDatabaseManager {
       $$MenuItemsTableTableManager(_db, _db.menuItems);
   $$PaymentMethodsTableTableManager get paymentMethods =>
       $$PaymentMethodsTableTableManager(_db, _db.paymentMethods);
+  $$DiningTablesTableTableManager get diningTables =>
+      $$DiningTablesTableTableManager(_db, _db.diningTables);
   $$SalesTableTableManager get sales =>
       $$SalesTableTableManager(_db, _db.sales);
   $$SaleItemsTableTableManager get saleItems =>

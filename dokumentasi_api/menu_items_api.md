@@ -29,6 +29,7 @@ Status: `200 OK`
       "name": "Kopi Susu",
       "description": "Kopi dan susu segar.",
       "sku": "KS-01",
+      "image_url": "http://localhost/storage/image_menu/1/kopi_susu.png",
       "price": 18000,
       "is_retail_ready": false,
       "revision": 1,
@@ -49,6 +50,7 @@ Status: `200 OK`
       "name": "Nasi Ayam",
       "description": null,
       "sku": "NA-01",
+      "image_url": null,
       "price": 22000,
       "is_retail_ready": false,
       "revision": 1,
@@ -74,6 +76,7 @@ Field response:
 - `name` adalah nama item yang ditampilkan di aplikasi kasir.
 - `description` adalah deskripsi item, bisa `null`.
 - `sku` adalah kode item, bisa `null`.
+- `image_url` adalah URL publik gambar menu di server, bisa `null` jika menu belum memiliki gambar.
 - `price` adalah harga item pada outlet pemiliknya.
 - `is_retail_ready` menandai kesiapan item untuk mode retail lanjutan.
 - `revision` dipakai untuk kebutuhan sync.
@@ -86,6 +89,8 @@ Field response:
 - API hanya mengirim menu aktif dari outlet yang dapat diakses user.
 - Menu dari outlet nonaktif tidak dikirim.
 - Harga dikirim dari data menu milik outlet.
+- Jika menu memiliki gambar, file disimpan server pada folder `image_menu/{outlet_id}/{nama_menu}.{ext}`.
+- Upload gambar menu di admin hanya menerima file PNG dan JPEG.
 - Item diurutkan berdasarkan nama outlet, urutan kategori, nama kategori, lalu nama item.
 - Response memakai `uuid`, `revision`, dan `updated_at` untuk kebutuhan sync.
 

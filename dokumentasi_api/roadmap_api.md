@@ -79,6 +79,7 @@ Catatan:
 - Data penting yang dibuat atau disync oleh kasir wajib memiliki `uuid`.
 - Data sync memakai `revision` atau `version` untuk mendeteksi perubahan.
 - Data dari kasir menyimpan sumber device jika relevan.
+- Konteks layanan transaksi seperti `dine_in` dan `take_away` disimpan di level `sales` melalui field `transaction_type`.
 - Push transaksi dan pembayaran wajib idempotent agar request ulang tidak membuat data dobel.
 - Request push transaksi memakai idempotency key.
 - Server menjadi sumber kebenaran untuk master data.
@@ -99,6 +100,7 @@ Dokumen endpoint:
 ### Fase 2: Pull Master Data
 
 - `GET /api/outlets` untuk daftar outlet yang dapat diakses user/device.
+- `GET /api/dining-tables` untuk master meja aktif per outlet.
 - `GET /api/menu-categories` untuk kategori menu.
 - `GET /api/menu-items` untuk menu dan harga.
 - `GET /api/payment-methods` untuk metode pembayaran aktif.
@@ -106,6 +108,7 @@ Dokumen endpoint:
 Dokumen endpoint:
 
 - `outlets_api.md`
+- `dining_tables_api.md`
 - `menu_categories_api.md`
 - `menu_items_api.md`
 - `payment_methods_api.md`
@@ -113,6 +116,7 @@ Dokumen endpoint:
 ### Fase 3: Push Transaksi
 
 - `POST /api/sales` untuk push transaksi.
+- Payload transaksi menyimpan `transaction_type` pada level sale; nilai awal yang dipakai adalah `dine_in` dan `take_away`.
 - `POST /api/payments` untuk push pembayaran.
 - Item transaksi dikirim bersama payload transaksi, kecuali nanti diputuskan perlu endpoint terpisah.
 

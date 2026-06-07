@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import 'database_migration.dart';
+
 part 'app_database.g.dart';
 
 class LocalUsers extends Table {
@@ -79,6 +81,7 @@ class MenuItems extends Table {
   TextColumn get name => text()();
   TextColumn get description => text().nullable()();
   TextColumn get sku => text().nullable()();
+  TextColumn get imageUrl => text().named('image_url').nullable()();
   IntColumn get price => integer()();
   BoolColumn get isRetailReady =>
       boolean().withDefault(const Constant(false))();
@@ -102,11 +105,29 @@ class PaymentMethods extends Table {
   Set<Column<Object>> get primaryKey => {uuid};
 }
 
+class DiningTables extends Table {
+  TextColumn get uuid => text()();
+  TextColumn get businessUuid => text().nullable()();
+  TextColumn get outletUuid => text()();
+  TextColumn get name => text()();
+  TextColumn get number => text().nullable()();
+  IntColumn get revision => integer().withDefault(const Constant(0))();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {uuid};
+}
+
 class Sales extends Table {
   TextColumn get uuid => text()();
   TextColumn get businessUuid => text().nullable()();
   TextColumn get checkoutGroupUuid => text().nullable()();
   TextColumn get outletUuid => text()();
+  TextColumn get transactionType => text()
+      .named('transaction_type')
+      .withDefault(const Constant('take_away'))();
+  TextColumn get diningTableUuid =>
+      text().named('dining_table_uuid').nullable()();
   TextColumn get deviceUuid => text()();
   TextColumn get number => text().nullable()();
   TextColumn get status => text().withDefault(const Constant('completed'))();
@@ -164,18 +185,74 @@ class SyncQueueEntries extends Table {
     MenuCategories,
     MenuItems,
     PaymentMethods,
+    DiningTables,
     Sales,
     SaleItems,
     SyncQueueEntries,
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase({this.onMigrationEvent, this.migrationLifecycleStore})
+    : super(_openConnection());
+
+  final void Function(DatabaseMigrationEvent event)? onMigrationEvent;
+  final DatabaseMigrationLifecycleStore? migrationLifecycleStore;
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 4;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (migrator, from, to) async {
+      await migrationLifecycleStore?.markPendingUpgrade(
+        fromVersion: from,
+        toVersion: to,
+      );
+
+      if (from < 4) {
+        _emitMigrationEvent(
+          'Memperbarui foto barang di database lokal...',
+          progress: 0.25,
+        );
+        await migrator.addColumn(menuItems, menuItems.imageUrl);
+
+        _emitMigrationEvent(
+          'Menambahkan master meja ke database lokal...',
+          progress: 0.55,
+        );
+        await migrator.createTable(diningTables);
+
+        _emitMigrationEvent(
+          'Merapikan struktur transaksi dine-in/take-away...',
+          progress: 0.8,
+        );
+        await migrator.addColumn(sales, sales.transactionType);
+        await migrator.addColumn(sales, sales.diningTableUuid);
+      }
+
+      await migrationLifecycleStore?.clearPendingUpgrade();
+    },
+    beforeOpen: (details) async {
+      if (details.wasCreated) {
+        _emitMigrationEvent('Database lokal siap digunakan.', progress: 1);
+      } else if (details.hadUpgrade) {
+        await migrationLifecycleStore?.clearPendingUpgrade();
+        _emitMigrationEvent('Upgrade database lokal selesai.', progress: 1);
+      }
+    },
+  );
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'ordi_pos');
+  }
+
+  Future<void> ensureReady() async {
+    await customSelect('SELECT 1').getSingle();
+  }
+
+  void _emitMigrationEvent(String message, {double? progress}) {
+    onMigrationEvent?.call(
+      DatabaseMigrationEvent(message: message, progress: progress),
+    );
   }
 }
