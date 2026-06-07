@@ -5754,6 +5754,935 @@ class SaleItemsCompanion extends UpdateCompanion<SaleItem> {
   }
 }
 
+class $CashierRecapsTable extends CashierRecaps
+    with TableInfo<$CashierRecapsTable, CashierRecap> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CashierRecapsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _recapUuidMeta = const VerificationMeta(
+    'recapUuid',
+  );
+  @override
+  late final GeneratedColumn<String> recapUuid = GeneratedColumn<String>(
+    'recap_uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _openedAtMeta = const VerificationMeta(
+    'openedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> openedAt = GeneratedColumn<DateTime>(
+    'opened_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _closedAtMeta = const VerificationMeta(
+    'closedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> closedAt = GeneratedColumn<DateTime>(
+    'closed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _outletCountMeta = const VerificationMeta(
+    'outletCount',
+  );
+  @override
+  late final GeneratedColumn<int> outletCount = GeneratedColumn<int>(
+    'outlet_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _transactionCountMeta = const VerificationMeta(
+    'transactionCount',
+  );
+  @override
+  late final GeneratedColumn<int> transactionCount = GeneratedColumn<int>(
+    'transaction_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _totalSalesMeta = const VerificationMeta(
+    'totalSales',
+  );
+  @override
+  late final GeneratedColumn<int> totalSales = GeneratedColumn<int>(
+    'total_sales',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _soldFromMeta = const VerificationMeta(
+    'soldFrom',
+  );
+  @override
+  late final GeneratedColumn<DateTime> soldFrom = GeneratedColumn<DateTime>(
+    'sold_from',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _soldUntilMeta = const VerificationMeta(
+    'soldUntil',
+  );
+  @override
+  late final GeneratedColumn<DateTime> soldUntil = GeneratedColumn<DateTime>(
+    'sold_until',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _outletsJsonMeta = const VerificationMeta(
+    'outletsJson',
+  );
+  @override
+  late final GeneratedColumn<String> outletsJson = GeneratedColumn<String>(
+    'outlets_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _cashierJsonMeta = const VerificationMeta(
+    'cashierJson',
+  );
+  @override
+  late final GeneratedColumn<String> cashierJson = GeneratedColumn<String>(
+    'cashier_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deviceJsonMeta = const VerificationMeta(
+    'deviceJson',
+  );
+  @override
+  late final GeneratedColumn<String> deviceJson = GeneratedColumn<String>(
+    'device_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _summaryJsonMeta = const VerificationMeta(
+    'summaryJson',
+  );
+  @override
+  late final GeneratedColumn<String> summaryJson = GeneratedColumn<String>(
+    'summary_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    recapUuid,
+    status,
+    openedAt,
+    closedAt,
+    outletCount,
+    transactionCount,
+    totalSales,
+    soldFrom,
+    soldUntil,
+    notes,
+    outletsJson,
+    cashierJson,
+    deviceJson,
+    summaryJson,
+    syncedAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cashier_recaps';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CashierRecap> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('recap_uuid')) {
+      context.handle(
+        _recapUuidMeta,
+        recapUuid.isAcceptableOrUnknown(data['recap_uuid']!, _recapUuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_recapUuidMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('opened_at')) {
+      context.handle(
+        _openedAtMeta,
+        openedAt.isAcceptableOrUnknown(data['opened_at']!, _openedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_openedAtMeta);
+    }
+    if (data.containsKey('closed_at')) {
+      context.handle(
+        _closedAtMeta,
+        closedAt.isAcceptableOrUnknown(data['closed_at']!, _closedAtMeta),
+      );
+    }
+    if (data.containsKey('outlet_count')) {
+      context.handle(
+        _outletCountMeta,
+        outletCount.isAcceptableOrUnknown(
+          data['outlet_count']!,
+          _outletCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('transaction_count')) {
+      context.handle(
+        _transactionCountMeta,
+        transactionCount.isAcceptableOrUnknown(
+          data['transaction_count']!,
+          _transactionCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('total_sales')) {
+      context.handle(
+        _totalSalesMeta,
+        totalSales.isAcceptableOrUnknown(data['total_sales']!, _totalSalesMeta),
+      );
+    }
+    if (data.containsKey('sold_from')) {
+      context.handle(
+        _soldFromMeta,
+        soldFrom.isAcceptableOrUnknown(data['sold_from']!, _soldFromMeta),
+      );
+    }
+    if (data.containsKey('sold_until')) {
+      context.handle(
+        _soldUntilMeta,
+        soldUntil.isAcceptableOrUnknown(data['sold_until']!, _soldUntilMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('outlets_json')) {
+      context.handle(
+        _outletsJsonMeta,
+        outletsJson.isAcceptableOrUnknown(
+          data['outlets_json']!,
+          _outletsJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('cashier_json')) {
+      context.handle(
+        _cashierJsonMeta,
+        cashierJson.isAcceptableOrUnknown(
+          data['cashier_json']!,
+          _cashierJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('device_json')) {
+      context.handle(
+        _deviceJsonMeta,
+        deviceJson.isAcceptableOrUnknown(data['device_json']!, _deviceJsonMeta),
+      );
+    }
+    if (data.containsKey('summary_json')) {
+      context.handle(
+        _summaryJsonMeta,
+        summaryJson.isAcceptableOrUnknown(
+          data['summary_json']!,
+          _summaryJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {recapUuid};
+  @override
+  CashierRecap map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CashierRecap(
+      recapUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recap_uuid'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      openedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}opened_at'],
+      )!,
+      closedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}closed_at'],
+      ),
+      outletCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}outlet_count'],
+      )!,
+      transactionCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}transaction_count'],
+      )!,
+      totalSales: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_sales'],
+      )!,
+      soldFrom: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sold_from'],
+      ),
+      soldUntil: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sold_until'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      outletsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}outlets_json'],
+      ),
+      cashierJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cashier_json'],
+      ),
+      deviceJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}device_json'],
+      ),
+      summaryJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_json'],
+      ),
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CashierRecapsTable createAlias(String alias) {
+    return $CashierRecapsTable(attachedDatabase, alias);
+  }
+}
+
+class CashierRecap extends DataClass implements Insertable<CashierRecap> {
+  final String recapUuid;
+  final String status;
+  final DateTime openedAt;
+  final DateTime? closedAt;
+  final int outletCount;
+  final int transactionCount;
+  final int totalSales;
+  final DateTime? soldFrom;
+  final DateTime? soldUntil;
+  final String? notes;
+  final String? outletsJson;
+  final String? cashierJson;
+  final String? deviceJson;
+  final String? summaryJson;
+  final DateTime? syncedAt;
+  final DateTime updatedAt;
+  const CashierRecap({
+    required this.recapUuid,
+    required this.status,
+    required this.openedAt,
+    this.closedAt,
+    required this.outletCount,
+    required this.transactionCount,
+    required this.totalSales,
+    this.soldFrom,
+    this.soldUntil,
+    this.notes,
+    this.outletsJson,
+    this.cashierJson,
+    this.deviceJson,
+    this.summaryJson,
+    this.syncedAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['recap_uuid'] = Variable<String>(recapUuid);
+    map['status'] = Variable<String>(status);
+    map['opened_at'] = Variable<DateTime>(openedAt);
+    if (!nullToAbsent || closedAt != null) {
+      map['closed_at'] = Variable<DateTime>(closedAt);
+    }
+    map['outlet_count'] = Variable<int>(outletCount);
+    map['transaction_count'] = Variable<int>(transactionCount);
+    map['total_sales'] = Variable<int>(totalSales);
+    if (!nullToAbsent || soldFrom != null) {
+      map['sold_from'] = Variable<DateTime>(soldFrom);
+    }
+    if (!nullToAbsent || soldUntil != null) {
+      map['sold_until'] = Variable<DateTime>(soldUntil);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || outletsJson != null) {
+      map['outlets_json'] = Variable<String>(outletsJson);
+    }
+    if (!nullToAbsent || cashierJson != null) {
+      map['cashier_json'] = Variable<String>(cashierJson);
+    }
+    if (!nullToAbsent || deviceJson != null) {
+      map['device_json'] = Variable<String>(deviceJson);
+    }
+    if (!nullToAbsent || summaryJson != null) {
+      map['summary_json'] = Variable<String>(summaryJson);
+    }
+    if (!nullToAbsent || syncedAt != null) {
+      map['synced_at'] = Variable<DateTime>(syncedAt);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  CashierRecapsCompanion toCompanion(bool nullToAbsent) {
+    return CashierRecapsCompanion(
+      recapUuid: Value(recapUuid),
+      status: Value(status),
+      openedAt: Value(openedAt),
+      closedAt: closedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closedAt),
+      outletCount: Value(outletCount),
+      transactionCount: Value(transactionCount),
+      totalSales: Value(totalSales),
+      soldFrom: soldFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(soldFrom),
+      soldUntil: soldUntil == null && nullToAbsent
+          ? const Value.absent()
+          : Value(soldUntil),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      outletsJson: outletsJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(outletsJson),
+      cashierJson: cashierJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cashierJson),
+      deviceJson: deviceJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceJson),
+      summaryJson: summaryJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(summaryJson),
+      syncedAt: syncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncedAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory CashierRecap.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CashierRecap(
+      recapUuid: serializer.fromJson<String>(json['recapUuid']),
+      status: serializer.fromJson<String>(json['status']),
+      openedAt: serializer.fromJson<DateTime>(json['openedAt']),
+      closedAt: serializer.fromJson<DateTime?>(json['closedAt']),
+      outletCount: serializer.fromJson<int>(json['outletCount']),
+      transactionCount: serializer.fromJson<int>(json['transactionCount']),
+      totalSales: serializer.fromJson<int>(json['totalSales']),
+      soldFrom: serializer.fromJson<DateTime?>(json['soldFrom']),
+      soldUntil: serializer.fromJson<DateTime?>(json['soldUntil']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      outletsJson: serializer.fromJson<String?>(json['outletsJson']),
+      cashierJson: serializer.fromJson<String?>(json['cashierJson']),
+      deviceJson: serializer.fromJson<String?>(json['deviceJson']),
+      summaryJson: serializer.fromJson<String?>(json['summaryJson']),
+      syncedAt: serializer.fromJson<DateTime?>(json['syncedAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'recapUuid': serializer.toJson<String>(recapUuid),
+      'status': serializer.toJson<String>(status),
+      'openedAt': serializer.toJson<DateTime>(openedAt),
+      'closedAt': serializer.toJson<DateTime?>(closedAt),
+      'outletCount': serializer.toJson<int>(outletCount),
+      'transactionCount': serializer.toJson<int>(transactionCount),
+      'totalSales': serializer.toJson<int>(totalSales),
+      'soldFrom': serializer.toJson<DateTime?>(soldFrom),
+      'soldUntil': serializer.toJson<DateTime?>(soldUntil),
+      'notes': serializer.toJson<String?>(notes),
+      'outletsJson': serializer.toJson<String?>(outletsJson),
+      'cashierJson': serializer.toJson<String?>(cashierJson),
+      'deviceJson': serializer.toJson<String?>(deviceJson),
+      'summaryJson': serializer.toJson<String?>(summaryJson),
+      'syncedAt': serializer.toJson<DateTime?>(syncedAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  CashierRecap copyWith({
+    String? recapUuid,
+    String? status,
+    DateTime? openedAt,
+    Value<DateTime?> closedAt = const Value.absent(),
+    int? outletCount,
+    int? transactionCount,
+    int? totalSales,
+    Value<DateTime?> soldFrom = const Value.absent(),
+    Value<DateTime?> soldUntil = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    Value<String?> outletsJson = const Value.absent(),
+    Value<String?> cashierJson = const Value.absent(),
+    Value<String?> deviceJson = const Value.absent(),
+    Value<String?> summaryJson = const Value.absent(),
+    Value<DateTime?> syncedAt = const Value.absent(),
+    DateTime? updatedAt,
+  }) => CashierRecap(
+    recapUuid: recapUuid ?? this.recapUuid,
+    status: status ?? this.status,
+    openedAt: openedAt ?? this.openedAt,
+    closedAt: closedAt.present ? closedAt.value : this.closedAt,
+    outletCount: outletCount ?? this.outletCount,
+    transactionCount: transactionCount ?? this.transactionCount,
+    totalSales: totalSales ?? this.totalSales,
+    soldFrom: soldFrom.present ? soldFrom.value : this.soldFrom,
+    soldUntil: soldUntil.present ? soldUntil.value : this.soldUntil,
+    notes: notes.present ? notes.value : this.notes,
+    outletsJson: outletsJson.present ? outletsJson.value : this.outletsJson,
+    cashierJson: cashierJson.present ? cashierJson.value : this.cashierJson,
+    deviceJson: deviceJson.present ? deviceJson.value : this.deviceJson,
+    summaryJson: summaryJson.present ? summaryJson.value : this.summaryJson,
+    syncedAt: syncedAt.present ? syncedAt.value : this.syncedAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  CashierRecap copyWithCompanion(CashierRecapsCompanion data) {
+    return CashierRecap(
+      recapUuid: data.recapUuid.present ? data.recapUuid.value : this.recapUuid,
+      status: data.status.present ? data.status.value : this.status,
+      openedAt: data.openedAt.present ? data.openedAt.value : this.openedAt,
+      closedAt: data.closedAt.present ? data.closedAt.value : this.closedAt,
+      outletCount: data.outletCount.present
+          ? data.outletCount.value
+          : this.outletCount,
+      transactionCount: data.transactionCount.present
+          ? data.transactionCount.value
+          : this.transactionCount,
+      totalSales: data.totalSales.present
+          ? data.totalSales.value
+          : this.totalSales,
+      soldFrom: data.soldFrom.present ? data.soldFrom.value : this.soldFrom,
+      soldUntil: data.soldUntil.present ? data.soldUntil.value : this.soldUntil,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      outletsJson: data.outletsJson.present
+          ? data.outletsJson.value
+          : this.outletsJson,
+      cashierJson: data.cashierJson.present
+          ? data.cashierJson.value
+          : this.cashierJson,
+      deviceJson: data.deviceJson.present
+          ? data.deviceJson.value
+          : this.deviceJson,
+      summaryJson: data.summaryJson.present
+          ? data.summaryJson.value
+          : this.summaryJson,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CashierRecap(')
+          ..write('recapUuid: $recapUuid, ')
+          ..write('status: $status, ')
+          ..write('openedAt: $openedAt, ')
+          ..write('closedAt: $closedAt, ')
+          ..write('outletCount: $outletCount, ')
+          ..write('transactionCount: $transactionCount, ')
+          ..write('totalSales: $totalSales, ')
+          ..write('soldFrom: $soldFrom, ')
+          ..write('soldUntil: $soldUntil, ')
+          ..write('notes: $notes, ')
+          ..write('outletsJson: $outletsJson, ')
+          ..write('cashierJson: $cashierJson, ')
+          ..write('deviceJson: $deviceJson, ')
+          ..write('summaryJson: $summaryJson, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    recapUuid,
+    status,
+    openedAt,
+    closedAt,
+    outletCount,
+    transactionCount,
+    totalSales,
+    soldFrom,
+    soldUntil,
+    notes,
+    outletsJson,
+    cashierJson,
+    deviceJson,
+    summaryJson,
+    syncedAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CashierRecap &&
+          other.recapUuid == this.recapUuid &&
+          other.status == this.status &&
+          other.openedAt == this.openedAt &&
+          other.closedAt == this.closedAt &&
+          other.outletCount == this.outletCount &&
+          other.transactionCount == this.transactionCount &&
+          other.totalSales == this.totalSales &&
+          other.soldFrom == this.soldFrom &&
+          other.soldUntil == this.soldUntil &&
+          other.notes == this.notes &&
+          other.outletsJson == this.outletsJson &&
+          other.cashierJson == this.cashierJson &&
+          other.deviceJson == this.deviceJson &&
+          other.summaryJson == this.summaryJson &&
+          other.syncedAt == this.syncedAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CashierRecapsCompanion extends UpdateCompanion<CashierRecap> {
+  final Value<String> recapUuid;
+  final Value<String> status;
+  final Value<DateTime> openedAt;
+  final Value<DateTime?> closedAt;
+  final Value<int> outletCount;
+  final Value<int> transactionCount;
+  final Value<int> totalSales;
+  final Value<DateTime?> soldFrom;
+  final Value<DateTime?> soldUntil;
+  final Value<String?> notes;
+  final Value<String?> outletsJson;
+  final Value<String?> cashierJson;
+  final Value<String?> deviceJson;
+  final Value<String?> summaryJson;
+  final Value<DateTime?> syncedAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const CashierRecapsCompanion({
+    this.recapUuid = const Value.absent(),
+    this.status = const Value.absent(),
+    this.openedAt = const Value.absent(),
+    this.closedAt = const Value.absent(),
+    this.outletCount = const Value.absent(),
+    this.transactionCount = const Value.absent(),
+    this.totalSales = const Value.absent(),
+    this.soldFrom = const Value.absent(),
+    this.soldUntil = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.outletsJson = const Value.absent(),
+    this.cashierJson = const Value.absent(),
+    this.deviceJson = const Value.absent(),
+    this.summaryJson = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CashierRecapsCompanion.insert({
+    required String recapUuid,
+    required String status,
+    required DateTime openedAt,
+    this.closedAt = const Value.absent(),
+    this.outletCount = const Value.absent(),
+    this.transactionCount = const Value.absent(),
+    this.totalSales = const Value.absent(),
+    this.soldFrom = const Value.absent(),
+    this.soldUntil = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.outletsJson = const Value.absent(),
+    this.cashierJson = const Value.absent(),
+    this.deviceJson = const Value.absent(),
+    this.summaryJson = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : recapUuid = Value(recapUuid),
+       status = Value(status),
+       openedAt = Value(openedAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<CashierRecap> custom({
+    Expression<String>? recapUuid,
+    Expression<String>? status,
+    Expression<DateTime>? openedAt,
+    Expression<DateTime>? closedAt,
+    Expression<int>? outletCount,
+    Expression<int>? transactionCount,
+    Expression<int>? totalSales,
+    Expression<DateTime>? soldFrom,
+    Expression<DateTime>? soldUntil,
+    Expression<String>? notes,
+    Expression<String>? outletsJson,
+    Expression<String>? cashierJson,
+    Expression<String>? deviceJson,
+    Expression<String>? summaryJson,
+    Expression<DateTime>? syncedAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (recapUuid != null) 'recap_uuid': recapUuid,
+      if (status != null) 'status': status,
+      if (openedAt != null) 'opened_at': openedAt,
+      if (closedAt != null) 'closed_at': closedAt,
+      if (outletCount != null) 'outlet_count': outletCount,
+      if (transactionCount != null) 'transaction_count': transactionCount,
+      if (totalSales != null) 'total_sales': totalSales,
+      if (soldFrom != null) 'sold_from': soldFrom,
+      if (soldUntil != null) 'sold_until': soldUntil,
+      if (notes != null) 'notes': notes,
+      if (outletsJson != null) 'outlets_json': outletsJson,
+      if (cashierJson != null) 'cashier_json': cashierJson,
+      if (deviceJson != null) 'device_json': deviceJson,
+      if (summaryJson != null) 'summary_json': summaryJson,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CashierRecapsCompanion copyWith({
+    Value<String>? recapUuid,
+    Value<String>? status,
+    Value<DateTime>? openedAt,
+    Value<DateTime?>? closedAt,
+    Value<int>? outletCount,
+    Value<int>? transactionCount,
+    Value<int>? totalSales,
+    Value<DateTime?>? soldFrom,
+    Value<DateTime?>? soldUntil,
+    Value<String?>? notes,
+    Value<String?>? outletsJson,
+    Value<String?>? cashierJson,
+    Value<String?>? deviceJson,
+    Value<String?>? summaryJson,
+    Value<DateTime?>? syncedAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return CashierRecapsCompanion(
+      recapUuid: recapUuid ?? this.recapUuid,
+      status: status ?? this.status,
+      openedAt: openedAt ?? this.openedAt,
+      closedAt: closedAt ?? this.closedAt,
+      outletCount: outletCount ?? this.outletCount,
+      transactionCount: transactionCount ?? this.transactionCount,
+      totalSales: totalSales ?? this.totalSales,
+      soldFrom: soldFrom ?? this.soldFrom,
+      soldUntil: soldUntil ?? this.soldUntil,
+      notes: notes ?? this.notes,
+      outletsJson: outletsJson ?? this.outletsJson,
+      cashierJson: cashierJson ?? this.cashierJson,
+      deviceJson: deviceJson ?? this.deviceJson,
+      summaryJson: summaryJson ?? this.summaryJson,
+      syncedAt: syncedAt ?? this.syncedAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (recapUuid.present) {
+      map['recap_uuid'] = Variable<String>(recapUuid.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (openedAt.present) {
+      map['opened_at'] = Variable<DateTime>(openedAt.value);
+    }
+    if (closedAt.present) {
+      map['closed_at'] = Variable<DateTime>(closedAt.value);
+    }
+    if (outletCount.present) {
+      map['outlet_count'] = Variable<int>(outletCount.value);
+    }
+    if (transactionCount.present) {
+      map['transaction_count'] = Variable<int>(transactionCount.value);
+    }
+    if (totalSales.present) {
+      map['total_sales'] = Variable<int>(totalSales.value);
+    }
+    if (soldFrom.present) {
+      map['sold_from'] = Variable<DateTime>(soldFrom.value);
+    }
+    if (soldUntil.present) {
+      map['sold_until'] = Variable<DateTime>(soldUntil.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (outletsJson.present) {
+      map['outlets_json'] = Variable<String>(outletsJson.value);
+    }
+    if (cashierJson.present) {
+      map['cashier_json'] = Variable<String>(cashierJson.value);
+    }
+    if (deviceJson.present) {
+      map['device_json'] = Variable<String>(deviceJson.value);
+    }
+    if (summaryJson.present) {
+      map['summary_json'] = Variable<String>(summaryJson.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CashierRecapsCompanion(')
+          ..write('recapUuid: $recapUuid, ')
+          ..write('status: $status, ')
+          ..write('openedAt: $openedAt, ')
+          ..write('closedAt: $closedAt, ')
+          ..write('outletCount: $outletCount, ')
+          ..write('transactionCount: $transactionCount, ')
+          ..write('totalSales: $totalSales, ')
+          ..write('soldFrom: $soldFrom, ')
+          ..write('soldUntil: $soldUntil, ')
+          ..write('notes: $notes, ')
+          ..write('outletsJson: $outletsJson, ')
+          ..write('cashierJson: $cashierJson, ')
+          ..write('deviceJson: $deviceJson, ')
+          ..write('summaryJson: $summaryJson, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $SyncQueueEntriesTable extends SyncQueueEntries
     with TableInfo<$SyncQueueEntriesTable, SyncQueueEntry> {
   @override
@@ -6377,6 +7306,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $DiningTablesTable diningTables = $DiningTablesTable(this);
   late final $SalesTable sales = $SalesTable(this);
   late final $SaleItemsTable saleItems = $SaleItemsTable(this);
+  late final $CashierRecapsTable cashierRecaps = $CashierRecapsTable(this);
   late final $SyncQueueEntriesTable syncQueueEntries = $SyncQueueEntriesTable(
     this,
   );
@@ -6396,6 +7326,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     diningTables,
     sales,
     saleItems,
+    cashierRecaps,
     syncQueueEntries,
   ];
 }
@@ -9280,6 +10211,429 @@ typedef $$SaleItemsTableProcessedTableManager =
       SaleItem,
       PrefetchHooks Function()
     >;
+typedef $$CashierRecapsTableCreateCompanionBuilder =
+    CashierRecapsCompanion Function({
+      required String recapUuid,
+      required String status,
+      required DateTime openedAt,
+      Value<DateTime?> closedAt,
+      Value<int> outletCount,
+      Value<int> transactionCount,
+      Value<int> totalSales,
+      Value<DateTime?> soldFrom,
+      Value<DateTime?> soldUntil,
+      Value<String?> notes,
+      Value<String?> outletsJson,
+      Value<String?> cashierJson,
+      Value<String?> deviceJson,
+      Value<String?> summaryJson,
+      Value<DateTime?> syncedAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$CashierRecapsTableUpdateCompanionBuilder =
+    CashierRecapsCompanion Function({
+      Value<String> recapUuid,
+      Value<String> status,
+      Value<DateTime> openedAt,
+      Value<DateTime?> closedAt,
+      Value<int> outletCount,
+      Value<int> transactionCount,
+      Value<int> totalSales,
+      Value<DateTime?> soldFrom,
+      Value<DateTime?> soldUntil,
+      Value<String?> notes,
+      Value<String?> outletsJson,
+      Value<String?> cashierJson,
+      Value<String?> deviceJson,
+      Value<String?> summaryJson,
+      Value<DateTime?> syncedAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$CashierRecapsTableFilterComposer
+    extends Composer<_$AppDatabase, $CashierRecapsTable> {
+  $$CashierRecapsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get recapUuid => $composableBuilder(
+    column: $table.recapUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get openedAt => $composableBuilder(
+    column: $table.openedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get closedAt => $composableBuilder(
+    column: $table.closedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get outletCount => $composableBuilder(
+    column: $table.outletCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get transactionCount => $composableBuilder(
+    column: $table.transactionCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalSales => $composableBuilder(
+    column: $table.totalSales,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get soldFrom => $composableBuilder(
+    column: $table.soldFrom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get soldUntil => $composableBuilder(
+    column: $table.soldUntil,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get outletsJson => $composableBuilder(
+    column: $table.outletsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cashierJson => $composableBuilder(
+    column: $table.cashierJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deviceJson => $composableBuilder(
+    column: $table.deviceJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryJson => $composableBuilder(
+    column: $table.summaryJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CashierRecapsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CashierRecapsTable> {
+  $$CashierRecapsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get recapUuid => $composableBuilder(
+    column: $table.recapUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get openedAt => $composableBuilder(
+    column: $table.openedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get closedAt => $composableBuilder(
+    column: $table.closedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get outletCount => $composableBuilder(
+    column: $table.outletCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get transactionCount => $composableBuilder(
+    column: $table.transactionCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalSales => $composableBuilder(
+    column: $table.totalSales,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get soldFrom => $composableBuilder(
+    column: $table.soldFrom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get soldUntil => $composableBuilder(
+    column: $table.soldUntil,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get outletsJson => $composableBuilder(
+    column: $table.outletsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cashierJson => $composableBuilder(
+    column: $table.cashierJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deviceJson => $composableBuilder(
+    column: $table.deviceJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summaryJson => $composableBuilder(
+    column: $table.summaryJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CashierRecapsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CashierRecapsTable> {
+  $$CashierRecapsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get recapUuid =>
+      $composableBuilder(column: $table.recapUuid, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get openedAt =>
+      $composableBuilder(column: $table.openedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get closedAt =>
+      $composableBuilder(column: $table.closedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get outletCount => $composableBuilder(
+    column: $table.outletCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get transactionCount => $composableBuilder(
+    column: $table.transactionCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalSales => $composableBuilder(
+    column: $table.totalSales,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get soldFrom =>
+      $composableBuilder(column: $table.soldFrom, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get soldUntil =>
+      $composableBuilder(column: $table.soldUntil, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get outletsJson => $composableBuilder(
+    column: $table.outletsJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get cashierJson => $composableBuilder(
+    column: $table.cashierJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get deviceJson => $composableBuilder(
+    column: $table.deviceJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get summaryJson => $composableBuilder(
+    column: $table.summaryJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$CashierRecapsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CashierRecapsTable,
+          CashierRecap,
+          $$CashierRecapsTableFilterComposer,
+          $$CashierRecapsTableOrderingComposer,
+          $$CashierRecapsTableAnnotationComposer,
+          $$CashierRecapsTableCreateCompanionBuilder,
+          $$CashierRecapsTableUpdateCompanionBuilder,
+          (
+            CashierRecap,
+            BaseReferences<_$AppDatabase, $CashierRecapsTable, CashierRecap>,
+          ),
+          CashierRecap,
+          PrefetchHooks Function()
+        > {
+  $$CashierRecapsTableTableManager(_$AppDatabase db, $CashierRecapsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CashierRecapsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CashierRecapsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CashierRecapsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> recapUuid = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> openedAt = const Value.absent(),
+                Value<DateTime?> closedAt = const Value.absent(),
+                Value<int> outletCount = const Value.absent(),
+                Value<int> transactionCount = const Value.absent(),
+                Value<int> totalSales = const Value.absent(),
+                Value<DateTime?> soldFrom = const Value.absent(),
+                Value<DateTime?> soldUntil = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> outletsJson = const Value.absent(),
+                Value<String?> cashierJson = const Value.absent(),
+                Value<String?> deviceJson = const Value.absent(),
+                Value<String?> summaryJson = const Value.absent(),
+                Value<DateTime?> syncedAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CashierRecapsCompanion(
+                recapUuid: recapUuid,
+                status: status,
+                openedAt: openedAt,
+                closedAt: closedAt,
+                outletCount: outletCount,
+                transactionCount: transactionCount,
+                totalSales: totalSales,
+                soldFrom: soldFrom,
+                soldUntil: soldUntil,
+                notes: notes,
+                outletsJson: outletsJson,
+                cashierJson: cashierJson,
+                deviceJson: deviceJson,
+                summaryJson: summaryJson,
+                syncedAt: syncedAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String recapUuid,
+                required String status,
+                required DateTime openedAt,
+                Value<DateTime?> closedAt = const Value.absent(),
+                Value<int> outletCount = const Value.absent(),
+                Value<int> transactionCount = const Value.absent(),
+                Value<int> totalSales = const Value.absent(),
+                Value<DateTime?> soldFrom = const Value.absent(),
+                Value<DateTime?> soldUntil = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> outletsJson = const Value.absent(),
+                Value<String?> cashierJson = const Value.absent(),
+                Value<String?> deviceJson = const Value.absent(),
+                Value<String?> summaryJson = const Value.absent(),
+                Value<DateTime?> syncedAt = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => CashierRecapsCompanion.insert(
+                recapUuid: recapUuid,
+                status: status,
+                openedAt: openedAt,
+                closedAt: closedAt,
+                outletCount: outletCount,
+                transactionCount: transactionCount,
+                totalSales: totalSales,
+                soldFrom: soldFrom,
+                soldUntil: soldUntil,
+                notes: notes,
+                outletsJson: outletsJson,
+                cashierJson: cashierJson,
+                deviceJson: deviceJson,
+                summaryJson: summaryJson,
+                syncedAt: syncedAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CashierRecapsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CashierRecapsTable,
+      CashierRecap,
+      $$CashierRecapsTableFilterComposer,
+      $$CashierRecapsTableOrderingComposer,
+      $$CashierRecapsTableAnnotationComposer,
+      $$CashierRecapsTableCreateCompanionBuilder,
+      $$CashierRecapsTableUpdateCompanionBuilder,
+      (
+        CashierRecap,
+        BaseReferences<_$AppDatabase, $CashierRecapsTable, CashierRecap>,
+      ),
+      CashierRecap,
+      PrefetchHooks Function()
+    >;
 typedef $$SyncQueueEntriesTableCreateCompanionBuilder =
     SyncQueueEntriesCompanion Function({
       Value<int> id,
@@ -9611,6 +10965,8 @@ class $AppDatabaseManager {
       $$SalesTableTableManager(_db, _db.sales);
   $$SaleItemsTableTableManager get saleItems =>
       $$SaleItemsTableTableManager(_db, _db.saleItems);
+  $$CashierRecapsTableTableManager get cashierRecaps =>
+      $$CashierRecapsTableTableManager(_db, _db.cashierRecaps);
   $$SyncQueueEntriesTableTableManager get syncQueueEntries =>
       $$SyncQueueEntriesTableTableManager(_db, _db.syncQueueEntries);
 }

@@ -113,6 +113,7 @@ Status: `201 Created`
 
 - Setiap transaksi memakai `uuid` dari aplikasi kasir.
 - Request wajib idempotent agar pengiriman ulang tidak membuat transaksi dobel.
+- Kasir harus memiliki shift aktif (`open`) yang mencakup outlet transaksi sebelum request diterima server.
 - Item transaksi dikirim bersama payload transaksi untuk tahap awal.
 - Server memvalidasi outlet, user, device, meja jika dikirim, item menu, dan total transaksi.
 - `transaction_type` diletakkan di level transaksi karena ia menjelaskan konteks layanan seluruh sale.
@@ -121,6 +122,7 @@ Status: `201 Created`
 - Jika `dining_table_uuid` dikirim, meja harus aktif dan berasal dari outlet transaksi yang sama.
 - Response `dining_table` bernilai `null` jika transaksi tidak memakai meja.
 - Transaksi hanya dibuat untuk satu outlet. Untuk checkout multi-outlet, aplikasi mengirim beberapa transaksi dengan `checkout_group_uuid` yang sama.
+- Transaksi yang berhasil dikirim saat shift aktif belum langsung ditutup ke rekap final; server akan mengaitkannya ke `cashier_recap_id` saat endpoint close shift dijalankan.
 - `subtotal` harus sama dengan total `items.*.line_total`.
 - `grand_total` harus sama dengan `subtotal - discount_total + tax_total + service_total`.
 
@@ -145,6 +147,12 @@ Status: `403 Forbidden`
 ```json
 {
   "message": "Device tidak dapat digunakan user ini."
+}
+```
+
+```json
+{
+  "message": "Kasir harus membuka shift aktif untuk outlet ini sebelum mengirim transaksi."
 }
 ```
 
@@ -221,3 +229,4 @@ Status: `422 Unprocessable Entity`
 - Untuk transaksi dine-in, simpan `dining_table_uuid` dari `GET /api/dining-tables` bersama transaksi lokal sebelum sync.
 - Untuk transaksi take-away/delivery, simpan nilai meja sebagai `null`.
 - Untuk checkout berisi item dari beberapa outlet, pecah menjadi beberapa request `POST /api/sales` dan gunakan `checkout_group_uuid` yang sama.
+- Pastikan aplikasi Flutter membuka shift lebih dulu melalui `POST /api/shifts/open` sebelum mengirim transaksi pertama.

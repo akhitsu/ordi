@@ -162,6 +162,28 @@ class SaleItems extends Table {
   Set<Column<Object>> get primaryKey => {uuid};
 }
 
+class CashierRecaps extends Table {
+  TextColumn get recapUuid => text().named('recap_uuid')();
+  TextColumn get status => text()();
+  DateTimeColumn get openedAt => dateTime().named('opened_at')();
+  DateTimeColumn get closedAt => dateTime().named('closed_at').nullable()();
+  IntColumn get outletCount => integer().withDefault(const Constant(0))();
+  IntColumn get transactionCount => integer().withDefault(const Constant(0))();
+  IntColumn get totalSales => integer().withDefault(const Constant(0))();
+  DateTimeColumn get soldFrom => dateTime().named('sold_from').nullable()();
+  DateTimeColumn get soldUntil => dateTime().named('sold_until').nullable()();
+  TextColumn get notes => text().nullable()();
+  TextColumn get outletsJson => text().named('outlets_json').nullable()();
+  TextColumn get cashierJson => text().named('cashier_json').nullable()();
+  TextColumn get deviceJson => text().named('device_json').nullable()();
+  TextColumn get summaryJson => text().named('summary_json').nullable()();
+  DateTimeColumn get syncedAt => dateTime().named('synced_at').nullable()();
+  DateTimeColumn get updatedAt => dateTime().named('updated_at')();
+
+  @override
+  Set<Column<Object>> get primaryKey => {recapUuid};
+}
+
 class SyncQueueEntries extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get entityType => text()();
@@ -188,6 +210,7 @@ class SyncQueueEntries extends Table {
     DiningTables,
     Sales,
     SaleItems,
+    CashierRecaps,
     SyncQueueEntries,
   ],
 )
@@ -199,7 +222,7 @@ class AppDatabase extends _$AppDatabase {
   final DatabaseMigrationLifecycleStore? migrationLifecycleStore;
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -228,6 +251,14 @@ class AppDatabase extends _$AppDatabase {
         );
         await migrator.addColumn(sales, sales.transactionType);
         await migrator.addColumn(sales, sales.diningTableUuid);
+      }
+
+      if (from < 5) {
+        _emitMigrationEvent(
+          'Menambahkan cache rekap kasir ke database lokal...',
+          progress: 0.9,
+        );
+        await migrator.createTable(cashierRecaps);
       }
 
       await migrationLifecycleStore?.clearPendingUpgrade();
