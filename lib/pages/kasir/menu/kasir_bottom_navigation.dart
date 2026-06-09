@@ -3,7 +3,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../core/theme/app_colors.dart';
 
-enum KasirMenuItem { home, history, newTransaction, menu, profile }
+enum KasirMenuItem { home, history, newTransaction, menu, cashier }
 
 class KasirBottomNavigation extends StatelessWidget {
   const KasirBottomNavigation({
@@ -70,9 +70,9 @@ class KasirBottomNavigation extends StatelessWidget {
                     Expanded(
                       child: _KasirNavItem(
                         icon: TablerIcons.user,
-                        label: 'Profile',
-                        isActive: selectedItem == KasirMenuItem.profile,
-                        onTap: () => onItemSelected(KasirMenuItem.profile),
+                        label: 'Kasir',
+                        isActive: selectedItem == KasirMenuItem.cashier,
+                        onTap: () => onItemSelected(KasirMenuItem.cashier),
                       ),
                     ),
                   ],

@@ -1512,6 +1512,53 @@ class $OutletsTable extends Outlets with TableInfo<$OutletsTable, Outlet> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _addressMeta = const VerificationMeta(
+    'address',
+  );
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+    'address',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _revisionMeta = const VerificationMeta(
+    'revision',
+  );
+  @override
+  late final GeneratedColumn<int> revision = GeneratedColumn<int>(
+    'revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   static const VerificationMeta _isSelectedMeta = const VerificationMeta(
     'isSelected',
   );
@@ -1545,6 +1592,10 @@ class $OutletsTable extends Outlets with TableInfo<$OutletsTable, Outlet> {
     name,
     code,
     role,
+    address,
+    phone,
+    isActive,
+    revision,
     isSelected,
     updatedAt,
   ];
@@ -1597,6 +1648,30 @@ class $OutletsTable extends Outlets with TableInfo<$OutletsTable, Outlet> {
         role.isAcceptableOrUnknown(data['role']!, _roleMeta),
       );
     }
+    if (data.containsKey('address')) {
+      context.handle(
+        _addressMeta,
+        address.isAcceptableOrUnknown(data['address']!, _addressMeta),
+      );
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('revision')) {
+      context.handle(
+        _revisionMeta,
+        revision.isAcceptableOrUnknown(data['revision']!, _revisionMeta),
+      );
+    }
     if (data.containsKey('is_selected')) {
       context.handle(
         _isSelectedMeta,
@@ -1638,6 +1713,22 @@ class $OutletsTable extends Outlets with TableInfo<$OutletsTable, Outlet> {
         DriftSqlType.string,
         data['${effectivePrefix}role'],
       ),
+      address: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}address'],
+      ),
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      revision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}revision'],
+      )!,
       isSelected: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_selected'],
@@ -1661,6 +1752,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
   final String name;
   final String? code;
   final String? role;
+  final String? address;
+  final String? phone;
+  final bool isActive;
+  final int revision;
   final bool isSelected;
   final DateTime? updatedAt;
   const Outlet({
@@ -1669,6 +1764,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
     required this.name,
     this.code,
     this.role,
+    this.address,
+    this.phone,
+    required this.isActive,
+    required this.revision,
     required this.isSelected,
     this.updatedAt,
   });
@@ -1686,6 +1785,14 @@ class Outlet extends DataClass implements Insertable<Outlet> {
     if (!nullToAbsent || role != null) {
       map['role'] = Variable<String>(role);
     }
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['revision'] = Variable<int>(revision);
     map['is_selected'] = Variable<bool>(isSelected);
     if (!nullToAbsent || updatedAt != null) {
       map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -1702,6 +1809,14 @@ class Outlet extends DataClass implements Insertable<Outlet> {
       name: Value(name),
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
       role: role == null && nullToAbsent ? const Value.absent() : Value(role),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
+      isActive: Value(isActive),
+      revision: Value(revision),
       isSelected: Value(isSelected),
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
@@ -1720,6 +1835,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
       name: serializer.fromJson<String>(json['name']),
       code: serializer.fromJson<String?>(json['code']),
       role: serializer.fromJson<String?>(json['role']),
+      address: serializer.fromJson<String?>(json['address']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      revision: serializer.fromJson<int>(json['revision']),
       isSelected: serializer.fromJson<bool>(json['isSelected']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -1733,6 +1852,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
       'name': serializer.toJson<String>(name),
       'code': serializer.toJson<String?>(code),
       'role': serializer.toJson<String?>(role),
+      'address': serializer.toJson<String?>(address),
+      'phone': serializer.toJson<String?>(phone),
+      'isActive': serializer.toJson<bool>(isActive),
+      'revision': serializer.toJson<int>(revision),
       'isSelected': serializer.toJson<bool>(isSelected),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -1744,6 +1867,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
     String? name,
     Value<String?> code = const Value.absent(),
     Value<String?> role = const Value.absent(),
+    Value<String?> address = const Value.absent(),
+    Value<String?> phone = const Value.absent(),
+    bool? isActive,
+    int? revision,
     bool? isSelected,
     Value<DateTime?> updatedAt = const Value.absent(),
   }) => Outlet(
@@ -1752,6 +1879,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
     name: name ?? this.name,
     code: code.present ? code.value : this.code,
     role: role.present ? role.value : this.role,
+    address: address.present ? address.value : this.address,
+    phone: phone.present ? phone.value : this.phone,
+    isActive: isActive ?? this.isActive,
+    revision: revision ?? this.revision,
     isSelected: isSelected ?? this.isSelected,
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
   );
@@ -1764,6 +1895,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
       name: data.name.present ? data.name.value : this.name,
       code: data.code.present ? data.code.value : this.code,
       role: data.role.present ? data.role.value : this.role,
+      address: data.address.present ? data.address.value : this.address,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      revision: data.revision.present ? data.revision.value : this.revision,
       isSelected: data.isSelected.present
           ? data.isSelected.value
           : this.isSelected,
@@ -1779,6 +1914,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
           ..write('name: $name, ')
           ..write('code: $code, ')
           ..write('role: $role, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('isActive: $isActive, ')
+          ..write('revision: $revision, ')
           ..write('isSelected: $isSelected, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1786,8 +1925,19 @@ class Outlet extends DataClass implements Insertable<Outlet> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(uuid, businessUuid, name, code, role, isSelected, updatedAt);
+  int get hashCode => Object.hash(
+    uuid,
+    businessUuid,
+    name,
+    code,
+    role,
+    address,
+    phone,
+    isActive,
+    revision,
+    isSelected,
+    updatedAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1797,6 +1947,10 @@ class Outlet extends DataClass implements Insertable<Outlet> {
           other.name == this.name &&
           other.code == this.code &&
           other.role == this.role &&
+          other.address == this.address &&
+          other.phone == this.phone &&
+          other.isActive == this.isActive &&
+          other.revision == this.revision &&
           other.isSelected == this.isSelected &&
           other.updatedAt == this.updatedAt);
 }
@@ -1807,6 +1961,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
   final Value<String> name;
   final Value<String?> code;
   final Value<String?> role;
+  final Value<String?> address;
+  final Value<String?> phone;
+  final Value<bool> isActive;
+  final Value<int> revision;
   final Value<bool> isSelected;
   final Value<DateTime?> updatedAt;
   final Value<int> rowid;
@@ -1816,6 +1974,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
     this.name = const Value.absent(),
     this.code = const Value.absent(),
     this.role = const Value.absent(),
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.revision = const Value.absent(),
     this.isSelected = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -1826,6 +1988,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
     required String name,
     this.code = const Value.absent(),
     this.role = const Value.absent(),
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.revision = const Value.absent(),
     this.isSelected = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -1837,6 +2003,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
     Expression<String>? name,
     Expression<String>? code,
     Expression<String>? role,
+    Expression<String>? address,
+    Expression<String>? phone,
+    Expression<bool>? isActive,
+    Expression<int>? revision,
     Expression<bool>? isSelected,
     Expression<DateTime>? updatedAt,
     Expression<int>? rowid,
@@ -1847,6 +2017,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
       if (name != null) 'name': name,
       if (code != null) 'code': code,
       if (role != null) 'role': role,
+      if (address != null) 'address': address,
+      if (phone != null) 'phone': phone,
+      if (isActive != null) 'is_active': isActive,
+      if (revision != null) 'revision': revision,
       if (isSelected != null) 'is_selected': isSelected,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rowid != null) 'rowid': rowid,
@@ -1859,6 +2033,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
     Value<String>? name,
     Value<String?>? code,
     Value<String?>? role,
+    Value<String?>? address,
+    Value<String?>? phone,
+    Value<bool>? isActive,
+    Value<int>? revision,
     Value<bool>? isSelected,
     Value<DateTime?>? updatedAt,
     Value<int>? rowid,
@@ -1869,6 +2047,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
       name: name ?? this.name,
       code: code ?? this.code,
       role: role ?? this.role,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      isActive: isActive ?? this.isActive,
+      revision: revision ?? this.revision,
       isSelected: isSelected ?? this.isSelected,
       updatedAt: updatedAt ?? this.updatedAt,
       rowid: rowid ?? this.rowid,
@@ -1893,6 +2075,18 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
     if (role.present) {
       map['role'] = Variable<String>(role.value);
     }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (revision.present) {
+      map['revision'] = Variable<int>(revision.value);
+    }
     if (isSelected.present) {
       map['is_selected'] = Variable<bool>(isSelected.value);
     }
@@ -1913,6 +2107,10 @@ class OutletsCompanion extends UpdateCompanion<Outlet> {
           ..write('name: $name, ')
           ..write('code: $code, ')
           ..write('role: $role, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('isActive: $isActive, ')
+          ..write('revision: $revision, ')
           ..write('isSelected: $isSelected, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rowid: $rowid')
@@ -8141,6 +8339,10 @@ typedef $$OutletsTableCreateCompanionBuilder =
       required String name,
       Value<String?> code,
       Value<String?> role,
+      Value<String?> address,
+      Value<String?> phone,
+      Value<bool> isActive,
+      Value<int> revision,
       Value<bool> isSelected,
       Value<DateTime?> updatedAt,
       Value<int> rowid,
@@ -8152,6 +8354,10 @@ typedef $$OutletsTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String?> code,
       Value<String?> role,
+      Value<String?> address,
+      Value<String?> phone,
+      Value<bool> isActive,
+      Value<int> revision,
       Value<bool> isSelected,
       Value<DateTime?> updatedAt,
       Value<int> rowid,
@@ -8188,6 +8394,26 @@ class $$OutletsTableFilterComposer
 
   ColumnFilters<String> get role => $composableBuilder(
     column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get revision => $composableBuilder(
+    column: $table.revision,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8236,6 +8462,26 @@ class $$OutletsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get revision => $composableBuilder(
+    column: $table.revision,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get isSelected => $composableBuilder(
     column: $table.isSelected,
     builder: (column) => ColumnOrderings(column),
@@ -8272,6 +8518,18 @@ class $$OutletsTableAnnotationComposer
 
   GeneratedColumn<String> get role =>
       $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<int> get revision =>
+      $composableBuilder(column: $table.revision, builder: (column) => column);
 
   GeneratedColumn<bool> get isSelected => $composableBuilder(
     column: $table.isSelected,
@@ -8315,6 +8573,10 @@ class $$OutletsTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String?> code = const Value.absent(),
                 Value<String?> role = const Value.absent(),
+                Value<String?> address = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> revision = const Value.absent(),
                 Value<bool> isSelected = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -8324,6 +8586,10 @@ class $$OutletsTableTableManager
                 name: name,
                 code: code,
                 role: role,
+                address: address,
+                phone: phone,
+                isActive: isActive,
+                revision: revision,
                 isSelected: isSelected,
                 updatedAt: updatedAt,
                 rowid: rowid,
@@ -8335,6 +8601,10 @@ class $$OutletsTableTableManager
                 required String name,
                 Value<String?> code = const Value.absent(),
                 Value<String?> role = const Value.absent(),
+                Value<String?> address = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> revision = const Value.absent(),
                 Value<bool> isSelected = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -8344,6 +8614,10 @@ class $$OutletsTableTableManager
                 name: name,
                 code: code,
                 role: role,
+                address: address,
+                phone: phone,
+                isActive: isActive,
+                revision: revision,
                 isSelected: isSelected,
                 updatedAt: updatedAt,
                 rowid: rowid,

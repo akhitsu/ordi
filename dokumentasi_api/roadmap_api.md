@@ -137,13 +137,6 @@ Dokumen endpoint:
 - `sales_api.md`
 - `payments_api.md`
 
-Catatan pondasi mobile:
-
-- Modul mobile untuk rekap kasir sebaiknya dipisah sebagai feature `cashier_recap` agar alur open/list/detail/close shift tidak tercampur dengan UI checkout.
-- Cache lokal minimal perlu menyimpan shift `open` terakhir dan snapshot rekap `closed` agar aplikasi tetap bisa restore session aktif dan membuka histori terakhir saat offline.
-- Kontrak model mobile untuk rekap kasir perlu mencakup data ringkas list (`recap_uuid`, status, waktu, total) dan data detail (`cashier`, `device`, `summary`, breakdown outlet).
-- UI rekap kasir baru dibuat setelah repository/service untuk endpoint shift stabil dan dapat dipakai ulang oleh halaman dashboard, halaman histori, dan proses sinkronisasi.
-
 ### Fase 4: Sync Support
 
 - `GET /api/sync/status` untuk cek status sync.
@@ -166,4 +159,3 @@ Dokumen endpoint:
 - Mobile adalah kanal utama untuk buka shift dan tutup shift; admin web cukup membaca status dan hasil rekap.
 - Register owner membuat relasi langsung `businesses -> users.business_id`, outlet pertama dengan `outlets.business_id`, dan akses owner pada `outlet_user`.
 - Contoh data API memakai merchant `Ordi Demo Merchant` dengan outlet demo `Outlet Utama`, `Warung Nasi Ordi`, dan `Coffee Shop Ordi`.
-- Istilah "rekap kasir" pada mobile saat ini mengacu ke resource shift di endpoint `/api/shifts`; nama feature internal boleh memakai `cashier_recap` untuk menjaga konteks bisnis tetap jelas di sisi Flutter.

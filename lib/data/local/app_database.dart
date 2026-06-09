@@ -53,6 +53,10 @@ class Outlets extends Table {
   TextColumn get name => text()();
   TextColumn get code => text().nullable()();
   TextColumn get role => text().nullable()();
+  TextColumn get address => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  IntColumn get revision => integer().withDefault(const Constant(0))();
   BoolColumn get isSelected => boolean().withDefault(const Constant(false))();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 
@@ -222,7 +226,7 @@ class AppDatabase extends _$AppDatabase {
   final DatabaseMigrationLifecycleStore? migrationLifecycleStore;
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -259,6 +263,17 @@ class AppDatabase extends _$AppDatabase {
           progress: 0.9,
         );
         await migrator.createTable(cashierRecaps);
+      }
+
+      if (from < 6) {
+        _emitMigrationEvent(
+          'Memperbarui master outlet dari backend terbaru...',
+          progress: 0.95,
+        );
+        await migrator.addColumn(outlets, outlets.address);
+        await migrator.addColumn(outlets, outlets.phone);
+        await migrator.addColumn(outlets, outlets.isActive);
+        await migrator.addColumn(outlets, outlets.revision);
       }
 
       await migrationLifecycleStore?.clearPendingUpgrade();
